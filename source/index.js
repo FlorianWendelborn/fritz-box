@@ -136,6 +136,7 @@ export default class FritzBoxAPI {
 			request
 				.post(this.api('/data.lua'))
 				.type('form')
+				.send(template)
 				.send({
 					activate_guest_access: onify(active),
 					guest_ssid: ssid,
@@ -144,7 +145,7 @@ export default class FritzBoxAPI {
 					down_time_activ: onify(autoDisable),
 					down_time_value: deactivateAfter,
 					disconnect_guest_access: onify(waitForLastGuest),
-				}, template)
+				})
 				.end((error, {text} = {}) => {
 					if (error) return reject(error);
 					if (active) return resolve(text);
