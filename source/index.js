@@ -55,9 +55,11 @@ export default class FritzBoxAPI {
 				.get(this.api('/'))
 				.end((error, {text} = {}) => {
 					// get challenge
-					const valueStart = text.indexOf('"challenge": ') + 14;
-					const valueEnd = text.indexOf('",', valueStart);
-					const challenge = text.substring(valueStart, valueEnd);
+					const matches = text.match(/"challenge":\s*"(.+?)",/);
+					const challenge = matches ? matches[1] : null;
+					if (!challenge) {
+						return reject(new Error('Unable to decode challenge'));
+					}
 
 					// solve challenge
 					const response = `${challenge}-${md5(`${challenge}-${reduceString(password)}`)}`;
