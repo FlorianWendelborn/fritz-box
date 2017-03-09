@@ -1,4 +1,6 @@
 source/
 npm-debug.log
 node_modules/
-
+yarn.lock
+.gitignore
+.git/

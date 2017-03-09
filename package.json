@@ -1,18 +1,34 @@
 {
-  "name": "fritz-box",
-  "version": "0.0.2",
+  "author": "Florian Wendelborn",
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": 7.6
+          }
+        }
+      ],
+      "stage-3"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/dodekeract/fritz-box/issues"
+  },
+  "dependencies": {
+    "cheerio": "^0.20.0",
+    "superagent": "^2.0.0"
+  },
   "description": "FRITZ!Box API",
-  "main": "build/",
-  "scripts": {
-    "start": "node build/",
-    "build": "babel --plugins transform-async-to-generator --presets es2015 source/ -d build/",
-    "watch": "nodemon --watch source/ --exec \"npm run build --silent && npm run start --silent\"",
-    "postpublish": "PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag $PACKAGE_VERSION && git push --tags"
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-core": "^6.10.4",
+    "babel-preset-env": "^1.2.1",
+    "babel-preset-stage-3": "^6.22.0",
+    "nodemon": "^1.9.2"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dodekeract/fritz-box.git"
-  },
+  "homepage": "https://github.com/dodekeract/fritz-box#readme",
   "keywords": [
     "fritzbox",
     "fritz-box",
@@ -24,22 +40,18 @@
     "smartflat",
     "smarthome"
   ],
-  "author": "Florian Wendelborn",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/dodekeract/fritz-box/issues"
+  "main": "build/",
+  "name": "fritz-box",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dodekeract/fritz-box.git"
   },
-  "homepage": "https://github.com/dodekeract/fritz-box#readme",
-  "devDependencies": {
-    "babel-cli": "^6.10.1",
-    "babel-core": "^6.10.4",
-    "babel-plugin-transform-async-to-generator": "^6.8.0",
-    "babel-preset-es2015": "^6.9.0",
-    "nodemon": "^1.9.2"
+  "scripts": {
+    "build": "babel source -d build",
+    "postpublish": "PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag $PACKAGE_VERSION && git push --tags",
+    "start": "node build/",
+    "watch": "nodemon --watch source/ --exec \"npm run build --silent && npm run start --silent\""
   },
-  "dependencies": {
-    "babel-polyfill": "^6.9.1",
-    "cheerio": "^0.20.0",
-    "superagent": "^2.0.0"
-  }
+  "version": "1.0.0"
 }
