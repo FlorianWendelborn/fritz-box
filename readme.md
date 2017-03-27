@@ -14,7 +14,9 @@ Tested in FRITZ!OS 6.80 on a FRITZ!Box 3490.
 ### Basic
 
 ```javascript
-const box = new FritzBoxAPI({
+import FritzBox from 'fritz-box'
+
+const box = new FritzBox({
 	host: 'fritz.box',
 	password: '...',
 	username: '...'
@@ -37,10 +39,10 @@ run()
 This will activate the guest WLAN and emit a IFTTT Maker channel notify event. If you create the fitting IFTTT recipe, this snippet should send you the WLAN password right to your smartphone.
 
 ```javascript
-import FritzBoxAPI from 'fritz-box'
+import FritzBox from 'fritz-box'
 import IFTTT from 'maker-ifttt'
 
-const box = new FritzBoxAPI({
+const box = new FritzBox({
 	host: 'fritz.box',
 	password: '...',
 	username: '...'
@@ -75,12 +77,12 @@ run()
 
 ## API
 
-### default class FritzBoxAPI ({host, password, username}) [<>](/source/index.js)
+### default class FritzBox ({host, password, username}) [<>](/source/index.js)
 
-Creates a new FritzBoxAPI with the given parameters.
+Creates a new FritzBox with the given parameters.
 
 ````javascript
-const box = new FritzBoxAPI({
+const box = new FritzBox({
 	host: 'fritz.box',
 	password: '...',
 	username: '...'
