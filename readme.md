@@ -3,7 +3,7 @@
 > Node.js (7.6+) FRITZ!Box API.
 
 [![Slack](https://slack.dodekeract.com/badge.svg)](https://slack.dodekeract.com)
-[![NPM Downloads](https://img.shields.io/npm/dm/fritz-box.svg)](https://npmjs.com/package/fritz-box)
+[![NPM Downloads](https://img.shields.io/npm/dt/fritz-box.svg)](https://npmjs.com/package/fritz-box)
 
 The whole library is promise/async-based, so it's best to use this in ES6+ code.
 
