@@ -6,7 +6,7 @@
         "env",
         {
           "targets": {
-            "node": 7.6
+            "node": "7.6"
           }
         }
       ],
@@ -26,6 +26,7 @@
     "babel-core": "^6.10.4",
     "babel-preset-env": "^1.2.1",
     "babel-preset-stage-3": "^6.22.0",
+    "eslint-plugin-async-await": "0.0.0",
     "nodemon": "^1.9.2"
   },
   "homepage": "https://github.com/dodekeract/fritz-box#readme",
@@ -49,6 +50,7 @@
   },
   "scripts": {
     "build": "babel source -d build",
+    "build-examples": "babel examples -d build-examples",
     "postpublish": "PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag $PACKAGE_VERSION && git push --tags",
     "start": "node build/",
     "watch": "nodemon --watch source/ --exec \"npm run build --silent && npm run start --silent\""
