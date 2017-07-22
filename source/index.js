@@ -8,26 +8,32 @@ import {onify, reduceString} from './utilities'
  * @description main class
  */
 export default class FritzBoxAPI {
-	constructor ({host, password, username}) {
+	constructor ({host, password, username, allowSelfSignedCertificate = false}) {
 		Object.assign(this, {
 			host,
 			password,
-			username
+			username,
 		});
+
+        // TODO: superagent doesn't support selectively allowing self signed certificates. Migrate
+        // to other request library. See: https://github.com/visionmedia/superagent/issues?utf8=%E2%9C%93&q=certificate
+        if (allowSelfSignedCertificate) {
+            process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+        }
 	}
 
 	/**
 	 * @description FRITZ!Box wants this format (md5 encoding is ucs-2):
 	 * response = challenge + '-' + md5.hex(challenge + '-' + password)
 	 */
-	async getSession () {
+	async getSession() {
 		let index;
 
 		try {
 			index = await request
 				.get(this.api('/'))
 		} catch (error) {
-			throw new Error(`could not GET ${this.api('/')}`);
+			throw error;
 		}
 
 		// get challenge
@@ -59,7 +65,7 @@ export default class FritzBoxAPI {
 	/**
 	 * @description retrieves guest WLAN settings
 	 */
-	async getGuestWLAN () {
+	async getGuestWLAN() {
 		try {
 			const response = await request
 				.post(this.api('/data.lua'))
@@ -116,7 +122,7 @@ export default class FritzBoxAPI {
 	/**
 	 * @description saves guest WLAN settings
 	 */
-	async setGuestWLAN ({ssid, key, active, limited, terms, allowCommunication, autoDisable, waitForLastGuest, deactivateAfter, security}) {
+	async setGuestWLAN({ssid, key, active, limited, terms, allowCommunication, autoDisable, waitForLastGuest, deactivateAfter, security}) {
 		const template = {
 			sid: this.sessionID,
 			xhr: 1,
@@ -153,7 +159,7 @@ export default class FritzBoxAPI {
 		}
 	}
 
-	async overview () {
+	async overview() {
 		try {
 			const response = await request
 				.post(this.api('/data.lua'))
@@ -173,8 +179,8 @@ export default class FritzBoxAPI {
 		}
 	}
 
-	api (endpoint) {
-		return `http://${this.host}${endpoint}`;
+	api(endpoint) {
+		return `https://${this.host}${endpoint}`;
 	}
 
 }
