@@ -1,25 +1,19 @@
-// region import
-
 import cheerio from 'cheerio'
 import request from 'superagent'
 
-// internal
 import {md5} from './crypto'
 import {onify, reduceString} from './utilities'
-
-// endregion
 
 /**
  * @description main class
  */
 export default class FritzBoxAPI {
-
 	constructor ({host, password, username}) {
 		Object.assign(this, {
 			host,
 			password,
 			username
-		})
+		});
 	}
 
 	/**
@@ -27,13 +21,13 @@ export default class FritzBoxAPI {
 	 * response = challenge + '-' + md5.hex(challenge + '-' + password)
 	 */
 	async getSession () {
-		let index
+		let index;
 
 		try {
 			index = await request
 				.get(this.api('/'))
 		} catch (error) {
-			throw new Error(`could not GET ${this.api('/')}`)
+			throw new Error(`could not GET ${this.api('/')}`);
 		}
 
 		// get challenge
@@ -88,9 +82,36 @@ export default class FritzBoxAPI {
 				security: $('#uiSecMode').val()
 			}
 		} catch (error) {
-			throw new Error('Could not get guest WLAN')
+            throw error;
 		}
 	}
+
+    /**
+     * @description Retrieves connected clients
+     */
+    async getConnectedClients() {
+        try {
+            const response = await request
+                .post(this.api('/data.lua'))
+                .type('form')
+                .send({
+                    sid: this.sessionID,
+                    page: 'homeNet'
+                });
+
+            const $ = cheerio.load(response.text);
+
+            const devices = $(".dev_lan > .name").map(function() {
+                return $(this).attr("title");
+            }).get();
+
+            return {
+                devices
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
 
 	/**
 	 * @description saves guest WLAN settings
@@ -148,7 +169,7 @@ export default class FritzBoxAPI {
 
 			return JSON.parse(response.text)
 		} catch (error) {
-			throw new Error('Could not get overview')
+			throw error;
 		}
 	}
 
