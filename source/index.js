@@ -1,3 +1,6 @@
+import { URL } from 'url';
+import url from 'url';
+
 import cheerio from 'cheerio'
 import request from 'superagent'
 
@@ -12,7 +15,7 @@ export default class FritzBoxAPI {
 		Object.assign(this, {
 			host,
 			password,
-			username,
+			username
 		});
 
         // TODO: superagent doesn't support selectively allowing self signed certificates. Migrate
@@ -107,12 +110,42 @@ export default class FritzBoxAPI {
 
             const $ = cheerio.load(response.text);
 
-            const devices = $(".dev_lan > .name").map(function() {
-                return $(this).attr("title");
+            const devices = $(".dev_lan").map(function() {
+				const deviceLink = url.parse($('.details > .textlink', this).attr('href'), true);
+
+                return {
+					id: deviceLink.query.dev,
+                    name: $('.name', this).attr('title')
+                }
             }).get();
 
+            return devices;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /**
+	 * @description Get client details
+	 */
+    async getClientDetails(id) {
+        try {
+            const response = await request
+                .post(this.api('/data.lua'))
+                .type('form')
+                .send({
+                    sid: this.sessionID,
+                    dev: id,
+                    oldpage: '/net/edit_device.lua'
+                });
+
+            const $ = cheerio.load(response.text);
+
             return {
-                devices
+                id,
+                name: $('#uiViewDeviceName').val(),
+                ip: $('#uiViewDeviceIP').val(),
+                mac: $('#uiDetailsMacContent').html().substring(0, 17)
             }
         } catch (error) {
             throw error;
@@ -182,5 +215,4 @@ export default class FritzBoxAPI {
 	api(endpoint) {
 		return `https://${this.host}${endpoint}`;
 	}
-
 }
