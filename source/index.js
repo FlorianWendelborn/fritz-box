@@ -11,11 +11,12 @@ import {onify, reduceString} from './utilities'
  * @description main class
  */
 export default class FritzBoxAPI {
-	constructor ({host, password, username, allowSelfSignedCertificate = false}) {
+	constructor ({host, password, username, ssl = true, allowSelfSignedCertificate = false}) {
 		Object.assign(this, {
 			host,
 			password,
-			username
+			username,
+            ssl
 		});
 
         // TODO: superagent doesn't support selectively allowing self signed certificates. Migrate
@@ -213,6 +214,6 @@ export default class FritzBoxAPI {
 	}
 
 	api(endpoint) {
-		return `https://${this.host}${endpoint}`;
+		return this.ssl ? `https://${this.host}${endpoint}` : `http://${this.host}${endpoint}`;
 	}
 }
