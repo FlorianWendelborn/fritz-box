@@ -1,13 +1,15 @@
-# Fritz Box
+<h1 align="center">fritz-box</h2>
 
-> Node.js (7.6+) FRITZ!Box API.
+<p align="center">
+	Promise-based JavaScript FRITZ!Box API.
+</p>
 
-[![Slack](https://slack.dodekeract.com/badge.svg)](https://slack.dodekeract.com)
-[![NPM Downloads](https://img.shields.io/npm/dt/fritz-box.svg)](https://npmjs.com/package/fritz-box)
-
-The whole library is promise/async-based, so it's best to use this in ES6+ code.
-
-Tested in FRITZ!OS 6.80 on a FRITZ!Box 3490.
+<p align="center">
+	<a href="https://slack.dodekeract.com"><img src="https://slack.dodekeract.com/badge.svg"/></a>
+	<a href="https://codeclimate.com/github/dodekeract/fritz-box/maintainability"><img src="https://api.codeclimate.com/v1/badges/0c35f27e2de42a35257b/maintainability"/></a>
+	<a href="https://npmjs.com/package/fritz-box"><img src="https://img.shields.io/npm/dm/fritz-box.svg"/></a>
+	<a href="https://david-dm.org/dodekeract/fritz-box"><img src="https://david-dm.org/dodekeract/fritz-box.svg"/></a>
+</p>
 
 ## Examples
 
@@ -75,9 +77,23 @@ const run = async () => {
 run()
 ```
 
+## Installation
+
+<pre>
+<a href="https://yarnpkg.com">yarn</a> add <a href="https://yarnpkg.com/en/package/fritz-box">fritz-box</a>
+</pre>
+or
+<pre>
+<a href="https://npmjs.com">npm</a> i <a href="https://npmjs.com/package/fritz-box">fritz-box</a>
+</pre>
+
 ## API
 
-### default class FritzBox ({host, password, username}) [<>](/source/index.js)
+### default class FritzBox [<>](/source/index.js)
+
+```ts
+({host, password, username}: Object)
+```
 
 Creates a new FritzBox with the given parameters.
 
@@ -89,22 +105,94 @@ const box = new FritzBox({
 });
 ````
 
-### async box.getSession()
+### box.getSession
+
+```ts
+(): Promise
+```
 
 Attempts to log in and fetches a session ID.
 
-### async box.getGuestWLAN()
+```js
+const box = new FritzBox(/* .. */)
+box
+	.getSession()
+	.then(() => {})
+	.catch(error => {})
+```
+
+### box.getGuestWLAN
+
+```ts
+(): Promise
+```
 
 Fetches the guest WLAN configuration from the FRITZ!Box.
 
-### async box.setGuestWLAN(settings)
+```js
+const box = new FritzBox(/* .. */)
+box
+	.getGuestWLAN()
+	.then(settings => {})
+	.catch(error => {})
+```
 
-Applies the modified `settings` object.
+### box.setGuestWLAN
 
-### async box.overview()
+```ts
+(settings: Object): Promise
+```
+
+Applies the (modified) `settings` object.
+
+```js
+const box = new FritzBox(/* .. */)
+box
+	.setGuestWLAN(settings)
+	.then(data => {})
+	.catch(error => {})
+```
+
+### box.overview
+
+```ts
+(): Promise
+```
 
 Returns the data contained in the overview tab of the FRITZ!Box user interface.
 
+```js
+const box = new FritzBox(/* .. */)
+box
+	.overview()
+	.then(data => {})
+	.catch(error => {})
+```
+
+### box.getDeviceDetails
+
+```ts
+(id: String): Promise
+```
+
+Gathers more information about a specific device.
+
+```js
+const box = new FritzBox(/* .. */)
+box
+	.getDeviceDetails('some-id')
+	.then(details => {})
+	.catch(error => {})
+```
+
 ## Disclaimer
 
+Tested in FRITZ!OS 6.92 on a FRITZ!Box 7590.
+
 FRITZ!Box and FRITZ!OS are registered trademarks of AVM. This project does not grant you any permissions to use them.
+
+## History
+
+* 1.1.0
+	* directly throw errors
+	* add `getDeviceDetails`

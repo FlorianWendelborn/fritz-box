@@ -1,4 +1,7 @@
-build/
-npm-debug.log
-node_modules/
+# mirror to .npmignore
 
+/build/
+/node_modules/
+/npm-debug.log
+
+# .gitignore-only
