@@ -26,8 +26,8 @@ export default class FritzBoxAPI {
 			secure,
 		})
 
-		// TODO: superagent doesn't support selectively allowing self signed certificates. Migrate
-		// to other request library. See: https://github.com/visionmedia/superagent/issues?utf8=%E2%9C%93&q=certificate
+		// TODO: superagent doesn't support selectively allowing self signed certificates. Migrate to another
+		// request library. See: https://github.com/visionmedia/superagent/issues?utf8=%E2%9C%93&q=certificate
 		if (allowSelfSignedCertificate) process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
 	}
 
@@ -179,12 +179,12 @@ export default class FritzBoxAPI {
 			.send(template)
 			.send({
 				activate_guest_access: onify(active),
+				disconnect_guest_access: onify(waitForLastGuest),
+				down_time_activ: onify(autoDisable),
+				down_time_value: deactivateAfter,
 				guest_ssid: ssid,
 				sec_mode: security,
 				wpa_key: key,
-				down_time_activ: onify(autoDisable),
-				down_time_value: deactivateAfter,
-				disconnect_guest_access: onify(waitForLastGuest),
 			})
 
 		// deactivate guest WLAN
