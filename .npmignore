@@ -1,6 +1,11 @@
-source/
-npm-debug.log
-node_modules/
-yarn.lock
-.gitignore
-.git/
+# mirror to .gitignore
+
+/node_modules/
+/npm-debug.log
+
+# .npmignore-only
+
+/.git/
+/.gitignore
+/source/
+/yarn.lock

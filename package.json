@@ -1,59 +1,61 @@
 {
-  "author": "Florian Wendelborn",
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "node": "7.6"
-          }
-        }
-      ],
-      "stage-3"
-    ]
-  },
-  "bugs": {
-    "url": "https://github.com/dodekeract/fritz-box/issues"
-  },
-  "dependencies": {
-    "cheerio": "^0.20.0",
-    "superagent": "^2.0.0"
-  },
-  "description": "FRITZ!Box API",
-  "devDependencies": {
-    "babel-cli": "^6.10.1",
-    "babel-core": "^6.10.4",
-    "babel-preset-env": "^1.2.1",
-    "babel-preset-stage-3": "^6.22.0",
-    "eslint-plugin-async-await": "0.0.0",
-    "nodemon": "^1.9.2"
-  },
-  "homepage": "https://github.com/dodekeract/fritz-box#readme",
-  "keywords": [
-    "fritzbox",
-    "fritz-box",
-    "api",
-    "http",
-    "rest",
-    "router",
-    "control",
-    "smartflat",
-    "smarthome"
-  ],
-  "license": "MIT",
-  "main": "build/",
-  "name": "fritz-box",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dodekeract/fritz-box.git"
-  },
-  "scripts": {
-    "build": "babel source -d build",
-    "build-examples": "babel examples -d build-examples",
-    "postpublish": "PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag $PACKAGE_VERSION && git push --tags",
-    "start": "node build/",
-    "watch": "nodemon --watch source/ --exec \"npm run build --silent && npm run start --silent\""
-  },
-  "version": "1.0.0"
+	"author": "Florian Wendelborn",
+	"babel": {
+		"presets": [
+			[
+				"@babel/preset-env",
+				{
+					"targets": {
+						"node": "7.6"
+					}
+				}
+			],
+			"@babel/preset-stage-3"
+		]
+	},
+	"bugs": {
+		"url": "https://github.com/dodekeract/fritz-box/issues"
+	},
+	"dependencies": {
+		"cheerio": "^1.0.0-rc.2",
+		"superagent": "^2.0.0"
+	},
+	"description": "FRITZ!Box API",
+	"devDependencies": {
+		"@babel/cli": "^7.0.0-beta.38",
+		"@babel/core": "^7.0.0-beta.38",
+		"@babel/preset-env": "^7.0.0-beta.38",
+		"@babel/preset-stage-3": "^7.0.0-beta.38",
+		"nodemon": "^1.14.11"
+	},
+	"homepage": "https://github.com/dodekeract/fritz-box#readme",
+	"keywords": [
+		"fritzbox",
+		"fritz-box",
+		"api",
+		"http",
+		"rest",
+		"router",
+		"control",
+		"smartflat",
+		"smarthome"
+	],
+	"license": "MIT",
+	"main": "build/",
+	"name": "fritz-box",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/dodekeract/fritz-box.git"
+	},
+	"scripts": {
+		"build": "babel source -d build",
+		"build-examples": "babel examples -d build-examples",
+		"postpublish":
+			"git tag $(node -e \"process.stdout.write(require('./package.json').version)\") && git push --tags",
+		"prepublishOnly": "yarn run build",
+		"start": "node build/",
+		"watch":
+			"nodemon --watch source/ --exec \"yarn run build && yarn run start\""
+	},
+	"version": "1.1.0"
 }
