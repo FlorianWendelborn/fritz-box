@@ -149,6 +149,34 @@ export default class FritzBoxAPI {
 	}
 
 	/**
+	 * @description Gathers more information about a specific device.
+	 * @returns {Array} wlan log
+	 */
+	async getWlanLog() {
+		const response = await request
+			.post(this.api('/data.lua'))
+			.type('form')
+			.send({
+				sid: this.sessionID,
+				xhr: 1,
+				page: 'log',
+				filter: 4,
+			})
+		
+		const jsonResponse = JSON.parse(response.text)
+		const log = jsonResponse.data ? jsonResponse.data.log || [] : []
+
+		return log.map(logEntry => ({
+			date: logEntry[0],
+			time: logEntry[1],
+			msg: logEntry[2],
+			helpCode: logEntry[3],
+			logType: logEntry[4],
+			helpLink: logEntry[5],
+		}))
+	}
+
+	/**
 	 * @description saves guest WLAN settings
 	 */
 	async setGuestWLAN({
