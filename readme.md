@@ -201,6 +201,22 @@ box
 	.catch(error => {})
 ```
 
+### box.getLog
+
+```ts
+(type = 'all' : String): Promise
+```
+
+Returns log entries. Supported types: `'all'`, `'system'`, `'internet'`, `'wlan'`, `'usb'`.
+
+```js
+;(async () => {
+	const box = new FritzBox(/* ... */)
+	await box.getSession()
+	console.log(await box.getLog())
+})()
+```
+
 ## Disclaimer
 
 Tested in FRITZ!OS 6.92 on a FRITZ!Box 7590.
