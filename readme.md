@@ -225,6 +225,10 @@ FRITZ!Box and FRITZ!OS are registered trademarks of AVM. This project does not g
 
 ## History
 
+* 1.2.0
+	* add `getLog`
+	* improve documentation
+
 * 1.1.0
 	* directly throw errors
 	* add `getDeviceDetails`
