@@ -1,32 +1,30 @@
-// region import
 import cheerio from 'cheerio'
 import request from 'superagent'
 import url from 'url'
 
 // internal
-import { fixPassword, onify } from './utilities'
+import { FritzBoxError, fixPassword, onify, parseLogEntry } from './utilities'
 import { md5 } from './crypto'
-// endregion
 
 /**
  * @description main class
  */
 export default class FritzBoxAPI {
 	constructor({
-		host,
-		password,
-		username,
-		secure = false,
 		allowSelfSignedCertificate = false,
+		host = 'fritz.box',
+		password,
+		secure = false,
+		username,
 	}) {
 		Object.assign(this, {
 			host,
 			password,
-			username,
 			secure,
+			username,
 		})
 
-		// TODO: superagent doesn't support selectively allowing self signed certificates. Migrate to another
+		// @TODO: superagent doesn't support selectively allowing self signed certificates. Migrate to another
 		// request library. See: https://github.com/visionmedia/superagent/issues?utf8=%E2%9C%93&q=certificate
 		if (allowSelfSignedCertificate) process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
 	}
@@ -44,15 +42,17 @@ export default class FritzBoxAPI {
 		const challenge = matches ? matches[1] : null
 		if (!challenge) throw new Error('Unable to decode challenge')
 
-		// solve challenge & attempt sign-in
+		// solve challenge
+		const response = `${challenge}-${md5(
+			`${challenge}-${fixPassword(this.password)}`
+		)}`
 
+		// attempt sign-in
 		const signIn = await request
 			.post(this.api('/'))
 			.type('form')
 			.send({
-				response: `${challenge}-${md5(
-					`${challenge}-${fixPassword(this.password)}`
-				)}`,
+				response,
 				username: this.username,
 			})
 
@@ -149,9 +149,44 @@ export default class FritzBoxAPI {
 	}
 
 	/**
+	 * @description Collects FRITZ!Box logs.
+	 * @param {String} [filter='all'] all, system, internet, phone, wlan, usb
+	 * @returns {Array} log entries
+	 */
+	async getLog(filter = 'all') {
+		const filterId = {
+			all: 0,
+			system: 1,
+			internet: 2,
+			phone: 3,
+			wlan: 4,
+			usb: 5,
+		}[filter]
+
+		const response = await request
+			.post(this.api('/data.lua'))
+			.type('form')
+			.send({
+				sid: this.sessionID,
+				xhr: 1,
+				xhrId: 'all',
+				page: 'log',
+				filter: filterId,
+			})
+
+		// wrong content-type, manually parse JSON
+		try {
+			const { data } = JSON.parse(response.text)
+			return data.log.map(parseLogEntry(response.headers.date))
+		} catch (error) {
+			throw new FritzBoxError('could not parse logs', error)
+		}
+	}
+
+	/**
 	 * @description saves guest WLAN settings
 	 */
-	async setGuestWLAN({
+	async setGuestWlan({
 		active,
 		allowCommunication,
 		autoDisable,
