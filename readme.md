@@ -92,7 +92,7 @@ or
 ### default class FritzBox [<>](/source/index.js)
 
 ```ts
-({host, password, username}: Object)
+({ host = 'fritz.box', password: String, username: String }: Object): FritzBox
 ```
 
 Creates a new FritzBox with the given parameters.
@@ -114,11 +114,11 @@ const box = new FritzBox({
 Attempts to log in and fetches a session ID.
 
 ```js
-const box = new FritzBox(/* .. */)
-box
-	.getSession()
-	.then(() => {})
-	.catch(error => {})
+;(async () => {
+	const box = new FritzBox(/* ... */)
+	await box.getSession()
+	// fritz-box is now ready for use
+})()
 ```
 
 ### box.getGuestWLAN
@@ -130,11 +130,11 @@ box
 Fetches the guest WLAN configuration from the FRITZ!Box.
 
 ```js
-const box = new FritzBox(/* .. */)
-box
-	.getGuestWLAN()
-	.then(settings => {})
-	.catch(error => {})
+;(async () => {
+	const box = new FritzBox(/* ... */)
+	await box.getSession()
+	const settings = await box.getGuestWLAN()
+})()
 ```
 
 ### box.setGuestWLAN
@@ -146,11 +146,11 @@ box
 Applies the (modified) `settings` object.
 
 ```js
-const box = new FritzBox(/* .. */)
-box
-	.setGuestWLAN(settings)
-	.then(data => {})
-	.catch(error => {})
+;(async () => {
+	const box = new FritzBox(/* ... */)
+	await box.getSession()
+	await box.setGuestWLAN(settings)
+})()
 ```
 
 ### box.overview
@@ -162,11 +162,11 @@ box
 Returns the data contained in the overview tab of the FRITZ!Box user interface.
 
 ```js
-const box = new FritzBox(/* .. */)
-box
-	.overview()
-	.then(data => {})
-	.catch(error => {})
+;(async () => {
+	const box = new FritzBox(/* ... */)
+	await box.getSession()
+	console.log(await box.overview())
+})()
 ```
 
 ### box.getDeviceDetails
@@ -178,11 +178,11 @@ box
 Gathers more information about a specific device.
 
 ```js
-const box = new FritzBox(/* .. */)
-box
-	.getDeviceDetails('some-id')
-	.then(details => {})
-	.catch(error => {})
+;(async () => {
+	const box = new FritzBox(/* ... */)
+	await box.getSession()
+	console.log(await box.getDeviceDetails('some-id'))
+})()
 ```
 
 ## Disclaimer
