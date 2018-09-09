@@ -55,13 +55,10 @@
 	},
 	"scripts": {
 		"build": "babel source -d build",
-		"build-examples": "babel examples -d build-examples",
-		"postpublish":
-			"git tag $(node -e \"process.stdout.write(require('./package.json').version)\") && git push --tags",
+		"postpublish": "git tag $(node -p \"require('./package.json').version\") && git push --tags",
 		"prepublishOnly": "yarn run build",
 		"start": "node build/",
-		"watch":
-			"nodemon --watch source/ --exec \"yarn run build && yarn run start\""
+		"watch": "nodemon --watch source/ --exec \"yarn run build && yarn run start\""
 	},
 	"version": "1.1.1"
 }
