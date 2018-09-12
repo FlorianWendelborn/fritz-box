@@ -185,22 +185,6 @@ Gathers more information about a specific device.
 })()
 ```
 
-### box.getWlanLog
-
-```ts
-(): Promise
-```
-
-Gets the last entries of the wlan log file.
-
-```js
-const box = new FritzBox(/* .. */)
-box
-	.getWlanLog()
-	.then(logEntries => {})
-	.catch(error => {})
-```
-
 ### box.getLog
 
 ```ts
