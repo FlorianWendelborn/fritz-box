@@ -1,6 +1,9 @@
 {
 	"author": "Florian Wendelborn",
 	"babel": {
+		"plugins": [
+			"@babel/plugin-proposal-class-properties"
+		],
 		"presets": [
 			[
 				"@babel/preset-env",
@@ -9,25 +12,24 @@
 						"node": "7.6"
 					}
 				}
-			],
-			"@babel/preset-stage-3"
+			]
 		]
 	},
 	"bugs": {
 		"url": "https://github.com/dodekeract/fritz-box/issues"
 	},
 	"dependencies": {
-		"cheerio": "^1.0.0-rc.2",
-		"dayjs": "^1.7.5",
-		"superagent": "^3.8.2"
+		"cheerio": "^1.0.0-rc.3",
+		"dayjs": "^1.8.14",
+		"superagent": "^5.0.5"
 	},
 	"description": "FRITZ!Box API",
 	"devDependencies": {
-		"@babel/cli": "^7.0.0-beta.38",
-		"@babel/core": "^7.0.0-beta.38",
-		"@babel/preset-env": "^7.0.0-beta.38",
-		"@babel/preset-stage-3": "^7.0.0-beta.38",
-		"nodemon": "^1.14.11"
+		"@babel/cli": "^7.4.4",
+		"@babel/core": "^7.4.5",
+		"@babel/plugin-proposal-class-properties": "^7.4.4",
+		"@babel/preset-env": "^7.4.5",
+		"nodemon": "^1.19.1"
 	},
 	"homepage": "https://github.com/dodekeract/fritz-box#readme",
 	"keywords": [
@@ -61,5 +63,5 @@
 		"start": "node build/",
 		"watch": "nodemon --watch source/ --exec \"yarn run build && yarn run start\""
 	},
-	"version": "1.2.0"
+	"version": "1.2.1"
 }
