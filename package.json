@@ -20,16 +20,16 @@
 	},
 	"dependencies": {
 		"cheerio": "^1.0.0-rc.3",
-		"dayjs": "^1.8.14",
-		"superagent": "^5.0.5"
+		"dayjs": "^1.8.16",
+		"superagent": "^5.1.0"
 	},
 	"description": "FRITZ!Box API",
 	"devDependencies": {
-		"@babel/cli": "^7.4.4",
-		"@babel/core": "^7.4.5",
-		"@babel/plugin-proposal-class-properties": "^7.4.4",
-		"@babel/preset-env": "^7.4.5",
-		"nodemon": "^1.19.1"
+		"@babel/cli": "^7.6.4",
+		"@babel/core": "^7.6.4",
+		"@babel/plugin-proposal-class-properties": "^7.5.5",
+		"@babel/preset-env": "^7.6.3",
+		"nodemon": "^1.19.4"
 	},
 	"homepage": "https://github.com/dodekeract/fritz-box#readme",
 	"keywords": [
