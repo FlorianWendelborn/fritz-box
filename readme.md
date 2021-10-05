@@ -5,10 +5,8 @@
 </p>
 
 <p align="center">
-	<a href="https://slack.dodekeract.com"><img src="https://slack.dodekeract.com/badge.svg"/></a>
 	<a href="https://codeclimate.com/github/dodekeract/fritz-box/maintainability"><img src="https://api.codeclimate.com/v1/badges/0c35f27e2de42a35257b/maintainability"/></a>
 	<a href="https://npmjs.com/package/fritz-box"><img src="https://img.shields.io/npm/dm/fritz-box.svg"/></a>
-	<a href="https://david-dm.org/dodekeract/fritz-box"><img src="https://david-dm.org/dodekeract/fritz-box.svg"/></a>
 </p>
 
 ## Examples
